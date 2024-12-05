@@ -5,12 +5,12 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserWebDetails {
+public class UsersDetails {
 	 private String username;
 	    private String password;
 	    private Collection<UserRole> roles;
 
-	    public UserWebDetails(String username, String password, Collection<UserRole> roles) {
+	    public UsersDetails(String username, String password, Collection<UserRole> roles) {
 	        this.username = username;
 	        this.password = password;
 	        this.roles = roles;
