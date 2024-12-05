@@ -32,4 +32,9 @@ public class ProductService {
     public List<Product> searchProducts(String name) {
         return productRepository.findByNameContainingIgnoreCase(name);
     }
+
+	public Object getCartItemsForGuest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
