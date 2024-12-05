@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{fragments/header :: header}"/>
+  <body>
+    <script type="text/javascript" th:src="@{/js/user.js}"></script>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+    <main role="main" class="container-sm">
+      <div class="row col-md-6 offset-md-3">
+        <form>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="email" autocomplete="email">
+            </div>
+            <div class="col-md-6">
+              <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+              <input type="password" class="form-control" id="password">
+            </div>
+            <div class="col-md-6">
+              <label for="fullName" class="form-label">Full Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="fullName">
+            </div>
+            <div class="col-md-6">
+              <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="phone" autocomplete="tel">
+            </div>
+            <div class="col-12">
+              <label for="addr" class="form-label">Address</label>
+              <input type="text" class="form-control" id="addr" placeholder="1234 Main St">
+            </div>
+            <div class="col-12">
+              <label for="addr2" class="form-label">Address 2</label>
+              <input type="text" class="form-control" id="addr2" placeholder="Apartment, studio, or floor">
+            </div>
+            <div class="col-md-6">
+              <label for="city" class="form-label">City</label>
+              <input type="text" class="form-control" id="city">
+            </div>
+            <div class="col-md-4">
+              <label for="state" class="form-label">State</label>
+              <select id="state" class="form-select">
+                <option selected>Choose...</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="zip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="zip">
+            </div>
+            <p class="form-label">Please describe what role you want to be:</p>
+            <div class="form-check offset-md-1">
+              <input class="form-check-input"
+                     type="radio"
+                     name="role"
+                     id="role-user"
+                     data-value='{"id": 3, "name":"user"}'
+                     checked>
+              <label class="form-check-label" for="role-user">user</label>
+            </div>
+            <div class="form-check offset-md-1">
+              <input class="form-check-input"
+                     type="radio"
+                     name="role"
+                     id="role-vendor"
+                     data-value='{"id": 2, "name":"vendor"}'>
+              <label class="form-check-label" for="role-vendor">vendor</label>
+            </div>
+            <div class="form-check offset-md-1">
+              <input class="form-check-input"
+                     type="radio"
+                     name="role"
+                     id="role-admin"
+                     data-value='{"id": 1, "name":"admin"}'>
+              <label class="form-check-label" for="role-admin">admin</label>
+            </div>
+          </div>
+          <div class="col-12">
+            <button type="button" class="btn btn-primary" th:onclick="register()">Register</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+  <footer th:insert="~{fragments/footer :: footer}" />
+</html>

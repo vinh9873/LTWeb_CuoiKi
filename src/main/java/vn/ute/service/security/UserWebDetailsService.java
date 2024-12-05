@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import vn.ute.dto.UserWebDetails;
-import vn.ute.repository.UserWebRepository;
 
 @Service
 public class UserWebDetailsService implements UserDetailsService {
@@ -24,7 +22,8 @@ public class UserWebDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new UserWebDetails(user.getName(), user.getPassword(), List.of(new UserRole(user.getRole())));
+        return new UserWebDetails(
+                user.getId(), user.getName(), user.getPassword(), List.of(new UserRole(user.getRole())));
     }
 
 }

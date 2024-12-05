@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{fragments/header :: header}"></head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+    <main role="main" class="container-sm">
+      <div class="row col-md-6 offset-md-3">
+        <form class="row g-3" method="post" th:action="@{/login}">
+          <div class="row">
+            <label for="username" class="form-label">Username</label>
+            <input class="form-control" name="username" id="username" type="text">
+          </div>
+          <div class="row">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="inputPassword4">
+          </div>
+          <div th:if="${param.error}" class="alert alert-danger">
+            Invalid username or password!
+          </div>
+          <div class="col-md-6">
+            <input class="form-check-input" name="rememberMe" type="checkbox" id="gridCheck1" value="true">
+            <label class="form-check-label" for="gridCheck1">Remember Me</label>
+          </div>
+          <div class="col-md-6">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer th:insert="~{fragments/footer :: footer}"></footer>
+  </body>
+</html>

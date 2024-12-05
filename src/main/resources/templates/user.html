@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{fragments/header :: header}"/>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+    <main role="main" class="container">
+
+      <div class="row col-md-8 offset-md-2">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Search for user" id="btn-search-user">
+          <button class="btn btn-outline-primary" type="button" id="btn-search-user">Search User</button>
+        </div>
+
+        <form class="row" method="post" th:action="@{#}">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th/>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-th-each="user : ${users}">
+                <td data-th-text="${user.id}"/>
+                <td data-th-text="${user.name}"/>
+                <td data-th-text="${user.phoneNumber}"/>
+                <td data-th-text="${user.emailAddress}"/>
+                <td data-th-text="${user.role.name}"/>
+                <td>
+                  <div class="dropdown" role="group">
+                    <button type="button" class="btn btn-sm" data-bs-toggle="dropdown">
+                      <svg width="12" height="14" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                      </svg>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <button type="submit"
+                              class="btn btn-primary dropdown-item"
+                              th:formaction="@{'/users/' + ${user.id} + '/delete'}">
+                        Delete
+                      </button>
+                      <button class="btn btn-primary dropdown-item"
+                              type="button"
+                              data-bs-toggle="modal"
+                              data-th-attr="data-bs-target=${'#' + user.id}">
+                        Update
+                      </button>
+                    </ul>
+                  </div>
+                </td>
+
+                <div class="modal" tabindex="-1" th:id="${user.id}">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Update User</h5>
+                      </div>
+                      <form class="modal-body">
+                        <div th:replace="~{user-profile :: userInfoForm(userId=${user.id},email=${user.emailAddress},password='',fullName=${user.name},phone=${user.phoneNumber},role=${user.role.name})}"/>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-success">Save</button>
+                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </main>
+  </body>
+  <footer th:insert="~{fragments/footer :: footer}" />
+</html>

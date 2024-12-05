@@ -1,49 +1,46 @@
 package vn.ute.config;
 
-import vn.ute.service.security.UserWebDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import vn.ute.service.security.UserWebDetailsService;
 
 @EnableWebSecurity
 @Configuration
+@EnableMethodSecurity(jsr250Enabled = true)
 public class DefaultSecurityConfig {
-	 @Autowired
-	    UserWebDetailsService userDetailsService;
 
-	    @Bean
-	    public PasswordEncoder passwordEncoder() {
-	        // return new BCryptPasswordEncoder();
-	        return NoOpPasswordEncoder.getInstance();
-	    }
+    private static final String[] PUBLIC_URLS = new String[] {
+            "/", "/register", "/api/users/register", "/js/**"};
 
-	    @Bean
-	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	        return http
-	                .authorizeHttpRequests(auth -> auth
-	                        .requestMatchers("/").permitAll()
-	                        .anyRequest().authenticated())
-	                .formLogin(form -> form.loginPage("/login").permitAll())
-	                .logout(logout -> logout.logoutSuccessUrl("/"))
-	                .authenticationManager(authenticationManager())
-	                .build();
-	    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	    @Bean
-	    public AuthenticationManager authenticationManager() {
-	        var authenticationProvider = new DaoAuthenticationProvider();
-	        authenticationProvider.setUserDetailsService(userDetailsService);
-	        authenticationProvider.setPasswordEncoder(passwordEncoder());
-	        return new ProviderManager(authenticationProvider);
-	    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(PUBLIC_URLS).permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(form -> form.loginPage("/login").permitAll())
+                .logout(logout -> logout.logoutSuccessUrl("/"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
+                .exceptionHandling(error -> error.accessDeniedPage("/403"))
+                .build();
+    }
+
+    // Using a static method to ensure that Spring publishes it before it
+    // initializes Spring Security’s method security @Configuration classes
+    @Bean
+    static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");
+    }
 }
