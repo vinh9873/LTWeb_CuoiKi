@@ -1,24 +1,25 @@
 package vn.ute.entity;
 
 import jakarta.persistence.*;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Role entity class for JPA
- */
 @Entity
-@Table(name = "role") // Tên bảng trong cơ sở dữ liệu
-public class Role implements java.io.Serializable {
+@Table(name = "category") // Tên bảng trong cơ sở dữ liệu
+public class Category implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Tự động tạo id (sử dụng auto_increment trong DB)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Sử dụng auto_increment cho trường id
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "role_name", nullable = false, length = 255)
-    private String roleName;
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
+
+    @Column(name = "code", nullable = false, length = 50)
+    private String code;
 
     @Column(name = "description", length = 255)
     private String description;
@@ -26,7 +27,7 @@ public class Role implements java.io.Serializable {
     @Column(name = "active_flag", nullable = false)
     private int activeFlag;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP) // Kiểu dữ liệu thời gian
     @Column(name = "create_date", nullable = false, updatable = false)
     private Date createDate;
 
@@ -34,33 +35,30 @@ public class Role implements java.io.Serializable {
     @Column(name = "update_date", nullable = false)
     private Date updateDate;
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    private Set<Auth> auths = new HashSet<>(0);
-
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    private Set<UserRole> userRoles = new HashSet<>(0);
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category") // Mối quan hệ OneToMany với ProductInfo
+    private Set<ProductInfo> productInfos = new HashSet<>(0);
 
     // Constructors
-    public Role() {
+    public Category() {
     }
 
-    public Role(String roleName, String description, int activeFlag, Date createDate, Date updateDate) {
-        this.roleName = roleName;
-        this.description = description;
+    public Category(String name, String code, int activeFlag, Date createDate, Date updateDate) {
+        this.name = name;
+        this.code = code;
         this.activeFlag = activeFlag;
         this.createDate = createDate;
         this.updateDate = updateDate;
     }
 
-    public Role(String roleName, String description, int activeFlag, Date createDate, Date updateDate,
-                Set<Auth> auths, Set<UserRole> userRoles) {
-        this.roleName = roleName;
+    public Category(String name, String code, String description, int activeFlag, Date createDate, Date updateDate,
+                    Set<ProductInfo> productInfos) {
+        this.name = name;
+        this.code = code;
         this.description = description;
         this.activeFlag = activeFlag;
         this.createDate = createDate;
         this.updateDate = updateDate;
-        this.auths = auths;
-        this.userRoles = userRoles;
+        this.productInfos = productInfos;
     }
 
     // Getters and Setters
@@ -72,12 +70,20 @@ public class Role implements java.io.Serializable {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return this.roleName;
+    public String getName() {
+        return this.name;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {
@@ -112,19 +118,12 @@ public class Role implements java.io.Serializable {
         this.updateDate = updateDate;
     }
 
-    public Set<Auth> getAuths() {
-        return this.auths;
+    public Set<ProductInfo> getProductInfos() {
+        return this.productInfos;
     }
 
-    public void setAuths(Set<Auth> auths) {
-        this.auths = auths;
+    public void setProductInfos(Set<ProductInfo> productInfos) {
+        this.productInfos = productInfos;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return this.userRoles;
-    }
-
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
 }
