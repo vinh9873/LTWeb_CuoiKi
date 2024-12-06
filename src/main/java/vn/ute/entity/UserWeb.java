@@ -1,61 +1,150 @@
 package vn.ute.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity(name = "user_web")
-public class UserWeb {
+@Entity
+@Table(name = "users")
+public class UserWeb implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Tạo ID tự động
     private Integer id;
 
-    @Column
-    private String name;
+    @Column(name = "user_name", nullable = false, unique = true)
+    private String userName;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "email_address")
-    private String emailAddress;
-
-    @Column
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "active_flag", nullable = false)
+    private int activeFlag;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date", nullable = false)
+    private Date createDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "update_date", nullable = false)
+    private Date updateDate;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<UserRole> userRoles = new HashSet<>();
+
+    // Constructors
+    public UserWeb() {
+    }
+
+    public UserWeb(String userName, String password, String name, int activeFlag, Date createDate, Date updateDate) {
+        this.userName = userName;
+        this.password = password;
+        this.name = name;
+        this.activeFlag = activeFlag;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+    }
+
+    public UserWeb(String userName, String password, String email, String name, int activeFlag, Date createDate,
+                 Date updateDate, Set<UserRole> userRoles) {
+        this.userName = userName;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.activeFlag = activeFlag;
+        this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.userRoles = userRoles;
+    }
+
+    // Getters and Setters
     public Integer getId() {
-        return id;
+        return this.id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getUserName() {
+        return this.userName;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public String getEmail() {
+        return this.email;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getActiveFlag() {
+        return this.activeFlag;
+    }
+
+    public void setActiveFlag(int activeFlag) {
+        this.activeFlag = activeFlag;
+    }
+
+    public Date getCreateDate() {
+        return this.createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return this.updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return this.userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+	public Role getRole() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getPhoneNumber() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

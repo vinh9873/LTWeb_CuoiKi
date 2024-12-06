@@ -36,7 +36,6 @@ public class DefaultSecurityConfig {
                 .exceptionHandling(error -> error.accessDeniedPage("/403"))
                 .build();
     }
-
     // Using a static method to ensure that Spring publishes it before it
     // initializes Spring Security’s method security @Configuration classes
     @Bean

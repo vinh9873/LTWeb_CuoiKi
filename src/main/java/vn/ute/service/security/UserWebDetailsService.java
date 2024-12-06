@@ -12,13 +12,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserWebDetailsService implements UserDetailsService {
-
-    @Autowired
-    UserWebRepository userRepo;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepo.findByEmailAddress(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

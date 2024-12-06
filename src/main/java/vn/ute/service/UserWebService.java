@@ -1,5 +1,3 @@
-package vn.ute.service;
-
 import java.util.List;
 import java.util.stream.StreamSupport;
 import vn.ute.entity.UserWeb;
@@ -17,12 +15,10 @@ public class UserWebService {
 
     @Autowired
     PasswordEncoder pwEncoder;
-
     public UserWeb createUser(UserWeb user) {
         user.setPassword(pwEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
-
     // Do not update password on this method because that would
     // cause the new password to be re-encoded, use old password
     // instead
@@ -40,7 +36,6 @@ public class UserWebService {
     public void deleteUserById(int id) {
         repo.deleteById(id);
     }
-
     public UserWeb findCurrentUser() {
         var userId = SecCtxHolderUtils.getUserId();
         return repo.findById(userId).orElseThrow();
