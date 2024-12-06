@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{fragments/head :: head}"/>
+  <head th:insert="~{fragments/header :: head}"/>
   <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
@@ -40,6 +40,6 @@
     </main>
 
     <!-- Footer -->
-    <footer th:insert="~{fragments/foot :: footer}" />
+    <footer th:insert="~{fragments/footer :: footer}" />
   </body>
 </html>
