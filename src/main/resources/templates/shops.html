@@ -7,16 +7,16 @@
 		th:replace="~{fragments/nav :: nav}"></nav>
 
 	<main role="main" class="container-sm">
-		<h1>Products</h1>
+		<h1>Shops</h1>
 		<div class="d-flex justify-content-end mb-3">
-			<a class="btn btn-success" th:href="@{/products/create}">Create Product</a>
+			<a class="btn btn-success" th:href="@{/shops/create}">Create shop</a>
 		</div>
 		<div class="row col-md-8 offset-md-2">
-			<form class="input-group mb-3" method="get" th:action="@{/products}">
+			<form class="input-group mb-3" method="get" th:action="@{/shops}">
 				<input type="text" class="form-control"
-					placeholder="Search for product" id="inputSearchProduct" name="search">
+					placeholder="Search for shop" id="inputSearchshop" name="search">
 				<button class="btn btn-outline-primary" type="submit"
-					id="btnSearchProduct">Search</button>
+					id="btnSearchshop">Search</button>
 			</form>
 			<form th:action="@{#}" method="post">
 				<table class="table">
@@ -24,19 +24,17 @@
 						<tr>
 							<th scope="col">ID</th>
 							<th scope="col">Name</th>
-							<th scope="col">Type</th>
-							<th scope="col">Price</th>
-							<th scope="col">Image</th>
+							<th scope="col">Type_Shop</th>
+							<th scope="col">Owner</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="product : ${products}">
-							<th scope="row" th:text="${product.id}">1</th>
-							<td th:text="${product.name}">Product 1</td>
-							<td th:text="${product.type}">Type A</td>
-							<td th:text="${product.price}">10.00</td>
-							<td th:text="${product.image}"></td>
+						<tr th:each="shop : ${shops}">
+							<th scope="row" th:text="${shop.id}">1</th>
+							<td th:text="${shop.name}">shop 1</td>
+							<td th:text="${shop.type}">Type A</td>
+							<td th:text="${shop.owner}">Group 15</td>
 							<td>
 								<div class="dropdown" role="group">
 									<button type="button" class="btn btn-sm"
@@ -49,10 +47,10 @@
 									</button>
 									<ul class="dropdown-menu">
 										<button type="submit" class="btn btn-primary dropdown-item"
-											th:formaction="@{'/products/' + ${product.id} + '/delete'}">
+											th:formaction="@{'/shops/' + ${shop.id} + '/delete'}">
 											Delete</button>
 										<a class="btn btn-primary dropdown-item"
-											th:href="@{'/products/' + ${product.id}}">View Details</a>
+											th:href="@{'/shops/' + ${shop.id}}">View Details</a>
 									</ul>
 								</div>
 							</td>
