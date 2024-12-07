@@ -1,32 +1,30 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{fragments/header :: header}"></head>
+  <head th:insert="~{fragments/header :: head}"/>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
     <main role="main" class="container-sm">
       <div class="row col-md-6 offset-md-3">
         <form class="row g-3" method="post" th:action="@{/login}">
           <div class="row">
-            <label for="usernameInput" class="form-label">Username</label>
-            <input class="form-control" name="username" id="usernameInput" type="text">
+            <label for="username1" class="form-label">Email</label>
+            <input class="form-control" name="username" id="username1" autocomplete="email">
           </div>
-          <div class="row">
+          <div class="row mt-3">
             <label for="inputPassword4" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="inputPassword4">
           </div>
           <div th:if="${param.error}" class="alert alert-danger">
             Invalid username or password!
           </div>
-          <div class="col-md-6">
-            <input class="form-check-input" name="rememberMe" type="checkbox" id="gridCheck1" value="true">
-            <label class="form-check-label" for="gridCheck1">Remember Me</label>
-          </div>
-          <div class="col-md-6">
+          <div class="col offset-md-10 mt-3">
             <button type="submit" class="btn btn-primary">Login</button>
           </div>
         </form>
       </div>
     </main>
-    <footer th:insert="~{fragments/footer :: footer}"></footer>
   </body>
+  <footer th:insert="~{fragments/footer :: footer}" />
 </html>
+
+<!-- TODO: use Bootstrap's dropdown form: https://getbootstrap.com/docs/5.3/components/dropdowns/#forms -->

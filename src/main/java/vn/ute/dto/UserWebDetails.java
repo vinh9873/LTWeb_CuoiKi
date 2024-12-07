@@ -1,8 +1,6 @@
 package vn.ute.dto;
 
 import java.util.Collection;
-
-import vn.ute.dto.UserRole;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

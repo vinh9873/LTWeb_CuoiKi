@@ -7,10 +7,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" th:classappend="${currentContext} == '/' ? 'active'" aria-current="page" href="/">Home</a>
+          <a class="nav-link" th:classappend="${currentContext} eq '/' ? 'active'" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item" th:if="${role} == 'admin'">
           <a class="nav-link" th:classappend="${currentContext} eq '/users'? 'active'" href="/users">Users</a>
+        </li>
+        <li class="nav-item" th:if="${role} == 'admin'">
+          <a class="nav-link" th:classappend="${currentContext} eq '/products'? 'active'" href="/products">Products</a>
         </li>
         <li class="nav-item dropdown" th:if="${role} == 'admin'">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -78,21 +81,17 @@
         <div class="container g-3">
           <form class="modal-body" method="post" th:action="@{/login}">
             <div class="row">
-              <label for="username" class="form-label">Username</label>
+              <label for="username" class="form-label">Email</label>
               <input class="form-control" name="username" id="username" autocomplete="email">
             </div>
-            <div class="row">
+            <div class="row mt-3">
               <label for="inputPassword" class="form-label">Password</label>
               <input type="password" name="password" class="form-control" id="inputPassword">
             </div>
             <div th:if="${param.error}" class="alert alert-danger">
               Invalid username or password!
             </div>
-            <div class="col-md-6">
-              <input class="form-check-input" name="rememberMe" type="checkbox" id="gridCheck">
-              <label class="form-check-label" for="gridCheck">Remember Me</label>
-            </div>
-            <div class="modal-footer">
+            <div class="col offset-md-10 mt-3">
               <button type="submit" class="btn btn-primary">Login</button>
             </div>
           </form>

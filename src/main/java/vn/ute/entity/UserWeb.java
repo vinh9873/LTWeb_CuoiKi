@@ -1,150 +1,87 @@
 package vn.ute.entity;
 
-import jakarta.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
-@Entity
-@Table(name = "users")
-public class UserWeb implements java.io.Serializable {
+@Entity(name = "user_web")
+public class UserWeb {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Tạo ID tự động
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_name", nullable = false, unique = true)
-    private String userName;
-
-    @Column(name = "password", nullable = false)
-    private String password;
-
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "name", nullable = false)
+    @Column
     private String name;
 
-    @Column(name = "active_flag", nullable = false)
-    private int activeFlag;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date", nullable = false)
-    private Date createDate;
+    @Column(name = "email_address")
+    private String emailAddress;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "update_date", nullable = false)
-    private Date updateDate;
+    @Column
+    private String password;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserRole> userRoles = new HashSet<>();
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    // Constructors
-    public UserWeb() {
-    }
-
-    public UserWeb(String userName, String password, String name, int activeFlag, Date createDate, Date updateDate) {
-        this.userName = userName;
-        this.password = password;
-        this.name = name;
-        this.activeFlag = activeFlag;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-    }
-
-    public UserWeb(String userName, String password, String email, String name, int activeFlag, Date createDate,
-                 Date updateDate, Set<UserRole> userRoles) {
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-        this.name = name;
-        this.activeFlag = activeFlag;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.userRoles = userRoles;
-    }
-
-    // Getters and Setters
     public Integer getId() {
-        return this.id;
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getUserName() {
-        return this.userName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getPassword() {
-        return this.password;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getEmail() {
-        return this.email;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public String toString() {
+        return "UserWeb [id=" + id + ", name=" + name + ", phoneNumber=" + phoneNumber + ", emailAddress="
+                + emailAddress + ", password=" + password + ", role=" + role + "]";
     }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getActiveFlag() {
-        return this.activeFlag;
-    }
-
-    public void setActiveFlag(int activeFlag) {
-        this.activeFlag = activeFlag;
-    }
-
-    public Date getCreateDate() {
-        return this.createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return this.updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public Set<UserRole> getUserRoles() {
-        return this.userRoles;
-    }
-
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
-    }
-
-	public Role getRole() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Object getPhoneNumber() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

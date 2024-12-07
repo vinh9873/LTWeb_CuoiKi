@@ -1,45 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{fragments/header :: head}"/>
-  <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+<head th:insert="~{fragments/header :: head}" />
+<body>
+	<!-- Navigation Bar -->
+	<nav class="navbar navbar-expand-lg bg-body-tertiary"
+		th:replace="~{fragments/nav :: nav}"></nav>
 
-    <main role="main" class="container-sm">
-      <h1>Products</h1>
-       <div class="d-flex justify-content-end mb-3">
-        <a class="btn btn-success" th:href="@{/products/create}">Create Product</a>
-      </div>
-      <div class="row col-md-8 offset-md-2">
-        <form class="input-group mb-3" method="get" th:action="@{/users}">
-          <input type="text" class="form-control" placeholder="Search for product" id="inputSearchUser" name="search">
-          <button class="btn btn-outline-primary" type="submit" id="btnSearchUser">Search Product</button>
-        </form>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Type</th>
-            <th scope="col">Price</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr th:each="product : ${products}">
-            <th scope="row" th:text="${product.id}">1</th>
-            <td th:text="${product.name}">Product 1</td>
-            <td th:text="${product.type}">Type A</td>
-            <td th:text="${product.price}">10.00</td>
-            <td>
-              <a class="btn btn-primary" th:href="@{/products/{id}(id=${product.id})}">View</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </main>
+	<main role="main" class="container-sm">
+		<h1>Products</h1>
+		<div class="d-flex justify-content-end mb-3">
+			<a class="btn btn-success" th:href="@{/products/create}">Create Product</a>
+		</div>
+		<div class="row col-md-8 offset-md-2">
+			<form class="input-group mb-3" method="get" th:action="@{/products}">
+				<input type="text" class="form-control"
+					placeholder="Search for product" id="inputSearchProduct" name="search">
+				<button class="btn btn-outline-primary" type="submit"
+					id="btnSearchProduct">Search</button>
+			</form>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Name</th>
+						<th scope="col">Type</th>
+						<th scope="col">Price</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product : ${products}">
+						<th scope="row" th:text="${product.id}">1</th>
+						<td th:text="${product.name}">Product 1</td>
+						<td th:text="${product.type}">Type A</td>
+						<td th:text="${product.price}">10.00</td>
+						<td>
+							<a class="btn btn-primary" th:href="@{/products/{id}(id=${product.id})}">View</a>
+							
+							<a class="btn btn-warning" th:href="@{/products/{id}/update(id=${product.id})}">Update</a>
+							
+							<form th:action="@{'/products/' + ${product.id} + '/delete'}" method="post" style="display:inline;">
+								<button type="submit" class="btn btn-danger">Delete</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
 
-    <!-- Footer -->
-    <footer th:insert="~{fragments/footer :: footer}" />
-  </body>
+	<!-- Footer -->
+	<footer th:insert="~{fragments/footer :: footer}" />
+</body>
 </html>

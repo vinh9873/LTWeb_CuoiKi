@@ -10,14 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity(jsr250Enabled = true)
 public class DefaultSecurityConfig {
 
     private static final String[] PUBLIC_URLS = new String[] {
-            "/", "/register", "/api/users/register", "/js/**"};
+            "/", "/register/**", "/api/users/register", "/js/**", "/favicon.ico"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,6 +35,7 @@ public class DefaultSecurityConfig {
                 .exceptionHandling(error -> error.accessDeniedPage("/403"))
                 .build();
     }
+
     // Using a static method to ensure that Spring publishes it before it
     // initializes Spring Security’s method security @Configuration classes
     @Bean
