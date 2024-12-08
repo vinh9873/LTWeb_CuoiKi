@@ -30,7 +30,8 @@ public class PreModelAttributeAdvice {
         }
         m.addAttribute("isLogin", isLogin);
         m.addAttribute("currentContext", req.getRequestURI());
-        m.addAttribute("hasItemInCart", true); // TODO implement this
+        var cartItems = userService.countItemInCart();
+        m.addAttribute("cartItems", cartItems);
     }
 
     @ModelAttribute("allRoles")

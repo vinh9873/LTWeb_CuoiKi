@@ -29,6 +29,10 @@ public class UserPageController {
 
     @PostMapping("/users/{id}/delete")
     public String deleteUserById(@PathVariable Integer id, Model m) {
+    	var user = userService.findCurrentUser();
+    	if(id.equals(user.getId())) {
+    		return "redirect:/users?cantDeleteSelf";
+    	}
         userService.deleteUserById(id);
         return userPage(null, m);
     }

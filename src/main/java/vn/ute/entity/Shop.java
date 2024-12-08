@@ -5,55 +5,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 
+@Data
 @Entity
 public class Shop {
- 
-	  @Id
-	  @GeneratedValue(strategy = GenerationType.IDENTITY)
-	  private Integer id;
-	  
-	  @Column
-	  private String name;
-	  
-	  @Column
-	  private String type;
-	  
-	  @Column
-	  private String owner;
 
-	public Integer getId() {
-		return id;
-	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	@Column
+	private String name;
 
-	public String getName() {
-		return name;
-	}
+	@Column
+	private String type;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	@Column
+	private String owner;
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
-	  
-	  
-	
 }

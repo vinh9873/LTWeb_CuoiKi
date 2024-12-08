@@ -13,6 +13,14 @@ public class SecCtxHolderUtils {
         return ctx.getAuthentication().getPrincipal();
     }
 
+    public static boolean isLoggedIn() {
+        var userDetails = getUserDetails();
+        if (userDetails instanceof UserWebDetails) {
+            return true;
+        }
+        return false;
+    }
+    
     public static Integer getUserId() {
         var userDetails = getUserDetails();
         if (userDetails instanceof UserWebDetails user) {
