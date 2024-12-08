@@ -6,7 +6,7 @@
     <main role="main" class="container-sm">
       <div class="row col-md-6 offset-md-3">
         <form th:object="${user}" method="post" th:action="@{/register/submit}">
-          <div class="row g-3" th:replace="user-profile :: userInfoForm">
+          <div class="row g-3" th:replace="~{user-profile :: userInfoForm}">
           </div>
         </form>
       </div>

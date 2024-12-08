@@ -10,12 +10,14 @@ public class UserWebDetails implements UserDetails {
     private String username;
     private String password;
     private Collection<UserRole> roles;
+    private Boolean isActive;
 
-    public UserWebDetails(Integer id, String username, String password, Collection<UserRole> roles) {
+    public UserWebDetails(Integer id, String username, String password, Collection<UserRole> roles, Boolean isActive) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.isActive = isActive;
     }
 
     @Override
@@ -31,6 +33,11 @@ public class UserWebDetails implements UserDetails {
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return Boolean.TRUE.equals(this.isActive);
     }
 
     public int getId() {

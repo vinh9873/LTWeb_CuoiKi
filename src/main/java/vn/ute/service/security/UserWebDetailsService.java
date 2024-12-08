@@ -23,7 +23,8 @@ public class UserWebDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new UserWebDetails(
-                user.getId(), user.getName(), user.getPassword(), List.of(new UserRole(user.getRole())));
+                user.getId(), user.getName(), user.getPassword(),
+                List.of(new UserRole(user.getRole())), user.getIsActive());
     }
 
 }

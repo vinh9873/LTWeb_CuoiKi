@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserWebRepository extends CrudRepository<UserWeb, Integer> {
 
     UserWeb findByEmailAddress(String emailAddress);
+    UserWeb findByCodeVerify(String code);
 
     /**
      * select * from user_web where name like '%namePattern%' or email_address like '%emailPattern%'

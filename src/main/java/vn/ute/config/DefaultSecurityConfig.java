@@ -16,7 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class DefaultSecurityConfig {
 
     private static final String[] PUBLIC_URLS = new String[] {
-            "/", "/register/**", "/api/users/register", "/js/**", "/favicon.ico"};
+            "/", "/register/**", "/js/**", "/favicon.ico",
+            "/verified", "/verify", "/product-images/**"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -31,7 +32,6 @@ public class DefaultSecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(form -> form.loginPage("/login").permitAll())
                 .logout(logout -> logout.logoutSuccessUrl("/"))
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
                 .exceptionHandling(error -> error.accessDeniedPage("/403"))
                 .build();
     }

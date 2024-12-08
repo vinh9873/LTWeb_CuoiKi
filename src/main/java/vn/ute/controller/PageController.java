@@ -1,14 +1,16 @@
 package vn.ute.controller;
 
 import vn.ute.dto.UserWebDto;
+import vn.ute.service.ProductService;
 import vn.ute.service.UserWebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PageController {
@@ -16,12 +18,17 @@ public class PageController {
     @Autowired
     UserWebService userService;
 
-    @RequestMapping("/")
-    public String homePage() {
+    @Autowired
+    ProductService prodService;
+
+    @GetMapping("/")
+    public String homePage(Model m) {
+        var products = prodService.findAllProducts();
+        m.addAttribute("products", products);
         return "index";
     }
 
-    @RequestMapping("/register")
+    @GetMapping("/register")
     public String getRegisterPage(@ModelAttribute("user") UserWebDto user) {
         return "register";
     }
@@ -33,15 +40,21 @@ public class PageController {
         }
         var role = userService.findRole(user.getRoleId());
         userService.createUser(user.toEntity(role));
-        return "login";
+        return "please-check-email";
     }
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @RequestMapping("/user-profile")
+    @GetMapping("/verify")
+    public String verify(@RequestParam("code") String code) {
+        userService.verifyUser(code);
+        return "verified";
+    }
+
+    @GetMapping("/user-profile")
     public String userProfile(Model m) {
         var user = userService.findCurrentUser();
         var maskedPassword = user.getPassword().replaceAll(".", "*");
@@ -50,7 +63,7 @@ public class PageController {
         return "user-profile";
     }
 
-    @RequestMapping("/403")
+    @GetMapping("/403")
     public String accessDenied() {
         return "403";
     }

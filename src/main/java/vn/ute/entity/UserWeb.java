@@ -31,6 +31,12 @@ public class UserWeb {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @Column
+    private Boolean isActive;
+
+    @Column
+    private String codeVerify;
+
     public Integer getId() {
         return id;
     }
@@ -77,6 +83,22 @@ public class UserWeb {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getCodeVerify() {
+        return codeVerify;
+    }
+
+    public void setCodeVerify(String codeVerify) {
+        this.codeVerify = codeVerify;
     }
 
     @Override

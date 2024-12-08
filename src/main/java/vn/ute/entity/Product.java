@@ -27,6 +27,7 @@ public class Product {
 	
 	@Column
 	private String description;
+	
 
 	public Integer getId() {
 		return id;
@@ -75,5 +76,5 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 }

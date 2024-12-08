@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
+
 	@Autowired
     private ProductRepository productRepository;
 
@@ -18,13 +19,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public List<Product> getAllProducts() {
+    public List<Product> findAllProducts() {
         return (List<Product>) productRepository.findAll();
     }
 
     public Product getProductById(int id) {
         Optional<Product> product = productRepository.findById(id);
-        return product.orElse(null); 
+        return product.orElse(null);
     }
 
 	public Product updateProduct(Product prod) {
@@ -44,7 +45,7 @@ public class ProductService {
     public void deleteProductById(int id) {
     	productRepository.deleteById(id);
 	}
-    
+
     public List<Product> findByNameContaining(String name) {
     	if (name == null || name.isBlank()) {
     		var products = productRepository.findAll();
@@ -52,5 +53,5 @@ public class ProductService {
     	}
         return productRepository.findByNameContaining(name);
     }
-    
+
 }

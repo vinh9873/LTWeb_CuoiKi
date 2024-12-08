@@ -1,11 +1,10 @@
 package vn.ute.controller;
+
+import java.util.List;
 import vn.ute.dto.UserWebDetails;
 import vn.ute.entity.Role;
 import vn.ute.service.UserWebService;
 import vn.ute.util.SecCtxHolderUtils;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

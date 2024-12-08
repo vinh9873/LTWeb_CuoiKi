@@ -19,6 +19,7 @@ public class UserWebDto {
         entity.setPhoneNumber(phoneNumber);
         entity.setEmailAddress(emailAddress);
         entity.setPassword(password);
+        entity.setIsActive(true);
         entity.setRole(role);
         return entity;
     }

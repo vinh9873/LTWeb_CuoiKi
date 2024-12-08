@@ -5,8 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class UserRole implements GrantedAuthority {
 
-	private static final long serialVersionUID = 1L;
-	private Role role;
+    private Role role;
 
     public UserRole(Role role) {
         this.role = role;
