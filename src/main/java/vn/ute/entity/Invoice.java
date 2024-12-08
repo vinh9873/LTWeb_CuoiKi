@@ -8,16 +8,16 @@ import java.util.Date;
  * Invoice entity class for JPA
  */
 @Entity
-@Table(name = "invoice") // Tên bảng trong cơ sở dữ liệu
+@Table(name = "invoice")
 public class Invoice implements java.io.Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Tự động tạo id (sử dụng auto_increment trong DB)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Mối quan hệ ManyToOne với ProductInfo
-    @JoinColumn(name = "product_info_id", referencedColumnName = "id") // Chỉ định khóa ngoại
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_info_id", referencedColumnName = "id")
     private ProductInfo productInfo;
 
     @Column(name = "code", nullable = false, length = 100)
@@ -29,13 +29,13 @@ public class Invoice implements java.io.Serializable {
     @Column(name = "qty", nullable = false)
     private int qty;
 
-    @Column(name = "price", nullable = false, precision = 10, scale = 2) // Định dạng BigDecimal
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @Column(name = "active_flag", nullable = false)
     private int activeFlag;
 
-    @Temporal(TemporalType.TIMESTAMP) // Kiểu dữ liệu thời gian
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false, updatable = false)
     private Date createDate;
 
@@ -43,25 +43,25 @@ public class Invoice implements java.io.Serializable {
     @Column(name = "update_date", nullable = false)
     private Date updateDate;
 
-    // Constructors
-    public Invoice() {
+    @Transient
+    private Date fromDate;
+
+    @Transient
+    private Date toDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createDate = new Date();
+        this.updateDate = new Date();
     }
 
-    public Invoice(ProductInfo productInfo, String code, int type, int qty, BigDecimal price, int activeFlag,
-                   Date createDate, Date updateDate) {
-        this.productInfo = productInfo;
-        this.code = code;
-        this.type = type;
-        this.qty = qty;
-        this.price = price;
-        this.activeFlag = activeFlag;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
+    @PreUpdate
+    protected void onUpdate() {
+        this.updateDate = new Date();
     }
 
-    // Getters and Setters
     public Integer getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Integer id) {
@@ -69,7 +69,7 @@ public class Invoice implements java.io.Serializable {
     }
 
     public ProductInfo getProductInfo() {
-        return this.productInfo;
+        return productInfo;
     }
 
     public void setProductInfo(ProductInfo productInfo) {
@@ -77,7 +77,7 @@ public class Invoice implements java.io.Serializable {
     }
 
     public String getCode() {
-        return this.code;
+        return code;
     }
 
     public void setCode(String code) {
@@ -85,7 +85,7 @@ public class Invoice implements java.io.Serializable {
     }
 
     public int getType() {
-        return this.type;
+        return type;
     }
 
     public void setType(int type) {
@@ -93,7 +93,7 @@ public class Invoice implements java.io.Serializable {
     }
 
     public int getQty() {
-        return this.qty;
+        return qty;
     }
 
     public void setQty(int qty) {
@@ -101,7 +101,7 @@ public class Invoice implements java.io.Serializable {
     }
 
     public BigDecimal getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(BigDecimal price) {
@@ -109,7 +109,7 @@ public class Invoice implements java.io.Serializable {
     }
 
     public int getActiveFlag() {
-        return this.activeFlag;
+        return activeFlag;
     }
 
     public void setActiveFlag(int activeFlag) {
@@ -117,7 +117,7 @@ public class Invoice implements java.io.Serializable {
     }
 
     public Date getCreateDate() {
-        return this.createDate;
+        return createDate;
     }
 
     public void setCreateDate(Date createDate) {
@@ -125,10 +125,30 @@ public class Invoice implements java.io.Serializable {
     }
 
     public Date getUpdateDate() {
-        return this.updateDate;
+        return updateDate;
     }
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
+    public Integer getProductId() {
+        return this.productInfo != null ? this.productInfo.getId() : null;
     }
 }

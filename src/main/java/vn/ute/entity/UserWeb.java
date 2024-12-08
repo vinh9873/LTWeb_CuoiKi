@@ -84,4 +84,9 @@ public class UserWeb {
         return "UserWeb [id=" + id + ", name=" + name + ", phoneNumber=" + phoneNumber + ", emailAddress="
                 + emailAddress + ", password=" + password + ", role=" + role + "]";
     }
+
+	public Object getUserName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

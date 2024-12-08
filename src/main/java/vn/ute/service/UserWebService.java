@@ -76,4 +76,7 @@ public class UserWebService {
         return roleRepo.findById(id).orElseThrow();
     }
 
+	public List<UserWeb> findByProperty(String property, Object value) {
+		log.info("Find user by property start ");
+		return userDAO.findByProperty(property, value);
 }

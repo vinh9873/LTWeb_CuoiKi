@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /**
  * ProductInfo entity class for JPA
  */
@@ -180,4 +182,12 @@ public class ProductInfo implements java.io.Serializable {
     public void setInvoices(Set<Invoice> invoices) {
         this.invoices = invoices;
     }
+
+	public MultipartFile getMultipartFile() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 }
