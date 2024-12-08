@@ -40,7 +40,7 @@ public class UserPageController {
         return "user-profile";
     }
 
-    @RolesAllowed({"admin", "vendor"})
+    @RolesAllowed({"admin", "user", "vendor"})
     @PostMapping("/users/{id}/update")
     public String updateUser(@PathVariable Integer id, UserWebDto user, BindingResult binding, Model m) {
         if (binding.hasErrors()) {
