@@ -50,29 +50,7 @@
               <label th:for="phoneNumber" class="form-label">Phone Number <span class="text-danger">*</span></label>
               <input type="tel" class="form-control" th:field="*{phoneNumber}" autocomplete="tel">
             </div>
-            <div class="col-12">
-              <label th:for="addr + *{id}" class="form-label">Address</label>
-              <input type="text" class="form-control" th:id="addr + *{id}" value="1234 Main St">
-            </div>
-            <div class="col-12">
-              <label th:for="addr2 + *{id}" class="form-label">Address 2</label>
-              <input type="text" class="form-control" th:id="addr2 + *{id}" value="Apartment, studio, or floor">
-            </div>
-            <div class="col-md-6">
-              <label th:for="city + *{id}" class="form-label">City</label>
-              <input type="text" class="form-control" th:id="city + *{id}">
-            </div>
-            <div class="col-md-4">
-              <label th:for="state + *{id}" class="form-label">State</label>
-              <select th:id="state + *{id}" class="form-select">
-                <option selected>Choose...</option>
-                <option>...</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <label th:for="zip + *{id}" class="form-label">Zip</label>
-              <input type="text" class="form-control" th:id="zip + *{id}">
-            </div>
+            
             <p class="form-label">Please describe what role you want to be:</p>
             <div class="form-check offset-md-1" th:each="role: ${allRoles}">
               <input class="form-check-input"
