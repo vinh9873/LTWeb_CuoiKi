@@ -73,8 +73,15 @@ public class ProductController {
     }
 
     @PostMapping("/{id}")
-    public String updateProduct(@PathVariable int id, Product updatedProduct, Model m) {
-        var product = productService.updateProduct(updatedProduct);
+    public String updateProduct(@PathVariable Integer id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) Float price,
+            @RequestParam(required = false) MultipartFile image,
+            @RequestParam(required = false) String description,
+            Model m) {
+        var imgSrc = uploadImage(image);
+        var product = productService.updateProduct(id, name, type, price, imgSrc, description);
         m.addAttribute("product", product);
         return "redirect:/products";
     }
@@ -86,6 +93,9 @@ public class ProductController {
     }
 
     private static String uploadImage(MultipartFile file) {
+        if (file == null) {
+            return null;
+        }
         Path fileNameAndPath = UPLOAD_DIR.resolve(file.getOriginalFilename());
         try {
             Files.write(fileNameAndPath, file.getBytes());

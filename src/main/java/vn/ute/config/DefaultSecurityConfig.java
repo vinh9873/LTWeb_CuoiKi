@@ -16,8 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class DefaultSecurityConfig {
 
     private static final String[] PUBLIC_URLS = new String[] {
-            "/", "/register/**", "/js/**", "/favicon.ico",
-            "/verified", "/verify", "/product-images/**"};
+            "/", "/register/**", "/api/users/register", "/js/**", "/favicon.ico",
+            "/verified", "/verify", "/product-images/**", "/images/**"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {

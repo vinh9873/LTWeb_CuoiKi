@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{fragments/header :: head}"/>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}" />
+    <h3 class="text-center">The product you are looking for is not available!</h3>
+    <p class="text-center">Please contact Vendor for more information.</p>
+    <div class="container-fluid col-md-6 offset-md-3">
+      <img src="/images/undraw_page_not_found_re_e9o6.svg" class="img-fluid mt-5" alt="404 - Not Found">
+    </div>
+  </body>
+  <footer th:insert="~{fragments/footer :: footer}" />
+</html>

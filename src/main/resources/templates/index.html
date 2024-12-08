@@ -4,38 +4,29 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
     <main role="main">
-      <div>
-        Giao diện Trang chủ:
-        <ul>
-          <li>Hiển thị sản phẩm bán trên 10 sản phẩm của các shop</li>
-          <li>Sắp xếp theo thứ tự từ lớn đến nhỏ</li>
-        </ul>
-      </div>
-
-      <style>
-        .card {
-            transition: box-shadow .3s;
-        }
-        .card:hover {
-            box-shadow: 0 0 22px rgba(33,33,33,.2);
-        }
-      </style>
+      <style>.card {transition: box-shadow .3s;} .card:hover {box-shadow: 0 0 22px rgba(33,33,33,.2);}</style>
 
       <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
           <div class="col" th:each="prod : ${products}">
-            <div class="card h-100">
-              <img th:src="${prod.image}" class="card-img-top" alt="iphone-16-img">
+            <form class="card h-100" method="post" th:action="@{#}">
+              <img th:src="${prod.image}"
+                   onerror="this.onerror=null; this.src='/images/default_product_image.svg'"
+                   class="card-img-top" alt="product-img">
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title" th:text="${prod.name}"/>
                 <p class="card-text mb-auto" th:text="${prod.description}" />
                 <p class="card-text" th:text="'Price: $' + ${prod.price}" />
                 <div class="btn-group" role="group" aria-label="Basic example">
-                  <a href="#" class="btn btn-success">Buy Now</a>
-                  <a href="#" class="btn btn-outline-success">Add To Cart</a>
+                  <button type="submit"
+                          th:formaction="@{'/orders/products/' + ${prod.id} + '/buy-now'}"
+                          class="btn btn-success">Buy Now</button>
+                  <button type="submit"
+                          th:formaction="@{'/orders/products/' + ${prod.id} + '/add-to-cart'}"
+                          class="btn btn-outline-success">Add To Cart</button>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

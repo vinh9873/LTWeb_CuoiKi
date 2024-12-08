@@ -28,19 +28,22 @@ public class ProductService {
         return product.orElse(null);
     }
 
-	public Product updateProduct(Product prod) {
-		Optional<Product> productOpt = productRepository.findById(prod.getId());
-		if (productOpt.isEmpty()) {
-			return null;
-		}
-		Product product = productOpt.get();
-		product.setName(prod.getName());
-		product.setType(prod.getType());
-		product.setPrice(prod.getPrice());
-		product.setImage(prod.getImage());
-		product.setDescription(prod.getDescription());
-		return productRepository.save(product);
-	}
+    public Product updateProduct(
+            Integer id, String name, String type, Float price, String image, String description) {
+        Optional<Product> productOpt = productRepository.findById(id);
+        if (productOpt.isEmpty()) {
+            return null;
+        }
+        Product product = productOpt.get();
+        Optional.ofNullable(name).ifPresent(product::setName);
+        Optional.ofNullable(type).ifPresent(product::setType);
+        Optional.ofNullable(price).ifPresent(product::setPrice);
+        Optional.ofNullable(description).ifPresent(product::setDescription);
+        if (image != null && !image.isBlank()) {
+            product.setImage(image);
+        }
+        return productRepository.save(product);
+    }
 
     public void deleteProductById(int id) {
     	productRepository.deleteById(id);
