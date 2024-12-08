@@ -1,4 +1,11 @@
 package vn.ute.repository;
 
-public interface OrderRepository {
+import org.springframework.data.repository.CrudRepository;
+import vn.ute.entity.Order;
+
+import java.util.List;
+
+public interface OrderRepository extends CrudRepository<Order, Integer> {
+
+    List<Order> findByUserId(int userId);
 }
