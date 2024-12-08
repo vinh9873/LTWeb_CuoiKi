@@ -1,7 +1,7 @@
 # LTWeb_CuoiKi
 ## 1.Công cụ sử dụng
 + Ngôn ngữ lập trình: `Java`.
-+ Database: `SQLServer`, 'MySQL.
++ Database: `SQLServer`, 'MySQL'.
 + IDE: `Springtool suite`.
 + Environment Runtime: `JDK 22`.
 
