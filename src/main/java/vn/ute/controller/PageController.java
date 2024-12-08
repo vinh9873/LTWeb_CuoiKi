@@ -34,13 +34,21 @@ public class PageController {
     }
 
     @PostMapping("/register/submit")
-    public String register(UserWebDto user, BindingResult binding) {
+    public String register(UserWebDto user, BindingResult binding, Model m) {
         if (binding.hasErrors()) {
             return "error";
+        }
+       
+        // prevent Duplicate Email Address
+        if (userService.isEmailAlreadyRegistered(user.getEmailAddress())) {
+            m.addAttribute("duplicatedEmail", true);
+            m.addAttribute("user", new UserWebDto());
+            return "register";
         }
         var role = userService.findRole(user.getRoleId());
         userService.createUser(user.toEntity(role));
         return "please-check-email";
+       
     }
 
     @GetMapping("/login")

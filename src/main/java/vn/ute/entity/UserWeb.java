@@ -32,10 +32,11 @@ public class UserWeb {
     private Role role;
 
     @Column
+    private String codeVerify;
+    
+    @Column
     private Boolean isActive;
 
-    @Column
-    private String codeVerify;
 
     public Integer getId() {
         return id;

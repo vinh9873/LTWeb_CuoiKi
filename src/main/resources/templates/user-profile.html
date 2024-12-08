@@ -22,7 +22,7 @@
 
         <form class="row" method="post" th:action="@{'/users/' + *{id} + '/update'}" th:object="${user}">
           <div class="container row g-3" th:fragment="userInfoForm">
-            <div class="d-flex align-items-center" th:unless="${currentContext} eq '/register'">
+            <div class="d-flex align-items-center" th:unless="${currentContext.matches('\/register.*')}">
               <div class="col-2">
                 <label for="id" class="col-form-label">User Id</label>
               </div>

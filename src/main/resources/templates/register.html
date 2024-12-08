@@ -1,16 +1,22 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{fragments/header :: head}"/>
-  <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
-    <main role="main" class="container-sm">
-      <div class="row col-md-6 offset-md-3">
-        <form th:object="${user}" method="post" th:action="@{/register/submit}">
-          <div class="row g-3" th:replace="~{user-profile :: userInfoForm}">
+<head th:insert="~{fragments/header :: head}" />
+<body>
+	<nav class="navbar navbar-expand-lg bg-body-tertiary"
+		th:replace="~{fragments/nav :: nav}"></nav>
+	<main role="main" class="container-sm">
+		<div class="row col-md-6 offset-md-3">
+		
+          <div th:if="${duplicatedEmail}" class="alert alert-danger">
+            Email already in used!
           </div>
-        </form>
-      </div>
-    </main>
-  </body>
-  <footer th:insert="~{fragments/footer :: footer}" />
+          
+			<form th:object="${user}" method="post"
+				th:action="@{/register/submit}">
+				<div class="row g-3" th:replace="~{user-profile :: userInfoForm}"></div>
+			</form>
+		</div>
+	</main>
+</body>
+<footer th:insert="~{fragments/footer :: footer}" />
 </html>

@@ -118,4 +118,8 @@ public class UserWebService {
         user.setCodeVerify(null);
         repo.save(user);
     }
+    
+    public boolean isEmailAlreadyRegistered(String email) {
+        return repo.existsByEmailAddress(email);
+    }
 }
