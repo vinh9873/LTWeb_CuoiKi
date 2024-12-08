@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.annotation.security.RolesAllowed;
+
+@RolesAllowed({"admin","vendor"})
 @Controller
 @RequestMapping("/shops")
 public class ShopController {
@@ -21,6 +24,7 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
+    @RolesAllowed({"vendor"})
     @PostMapping("/create")
     public String createShop(Shop shop, BindingResult binding) {
     	if (binding.hasErrors()) {
@@ -35,6 +39,7 @@ public class ShopController {
         return "shop"; 
     }
     
+    @RolesAllowed({"vendor","admin"})
     @GetMapping
     public String getAllShop(@RequestParam(value = "search", required = false) String search, Model m) {       
         List<Shop> shops = shopService.findByNameContaining(search); 
