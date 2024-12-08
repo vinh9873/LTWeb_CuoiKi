@@ -1,8 +1,10 @@
 package vn.ute.dto;
 
+import lombok.Data;
 import vn.ute.entity.Role;
 import vn.ute.entity.UserWeb;
 
+@Data
 public class UserWebDto {
 
     private Integer id;
@@ -33,53 +35,5 @@ public class UserWebDto {
         dto.setPassword(entity.getPassword());
         dto.setRoleId(entity.getRole().getId());
         return dto;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
     }
 }

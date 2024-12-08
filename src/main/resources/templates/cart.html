@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head th:insert="~{fragments/header :: head}" />
+	<body>
+		<nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+		<main role="main" class="container">
+			<div class="row justify-content-md-center">
+				<form method="post"
+					  th:action="@{/orders/buy-now}"
+					  enctype="multipart/form-data"
+					  th:object="${product}">
+					<div class="row">
+						<div class="col-7">
+							<div th:each="prod : ${products}">
+								<div class="row mb-2" th:insert="~{products :: productCard(prod=${prod})}" />
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="card text-end">
+								<div class="card-body">
+									<h3 class="card-title mb-3" th:text="'Total: $' + ${totalCost}" />
+									<button type="submit" class="btn btn-success btn-lg">Buy Now</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</main>
+	</body>
+	<footer th:insert="~{fragments/footer :: footer}" />
+</html>
