@@ -102,4 +102,17 @@ public class ProductService {
         productRepository.saveAll(updatedProducts);
         cartRepo.delete(cart);
     }
+    
+    public void removeFromCart(Integer prodId) {
+        var currentUser = userService.findCurrentUserEntity();
+        var cartOpt = cartRepo.findByUserId(currentUser.getId());
+        
+        if (cartOpt.isEmpty()) {
+            return;
+        }
+
+        var cart = cartOpt.get();
+        cart.removeItemFromCart(prodId); 
+        cartRepo.save(cart); 
+    }
 }

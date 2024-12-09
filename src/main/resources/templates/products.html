@@ -39,7 +39,12 @@
 										<p class="card-text" th:text="'Unit sold: ' + ${prod.soldNumber}" />
 										<p class="card-text" th:text="'Price: $' + ${prod.price}" />
 										<div class="d-flex flex-row-reverse" role="group" th:if="${currentContext.matches('^\/products')}">
-											<button type="submit" class="btn btn-danger" formmethod="post" th:formaction="@{'/products/' + ${prod.id} + '/delete'}">Delete</button>
+											<button type="submit" class="btn btn-danger" formmethod="post" 
+											th:formaction="@{'/products/' + ${prod.id} + '/delete'}">Delete</button>
+										</div>
+										<div class="d-flex flex-row-reverse" role="group" th:if="${currentContext.matches('^\/orders.*')}">
+											<button type="submit" class="btn btn-danger" formmethod="post" 
+											th:formaction="@{'/orders/products/' + ${prod.id} + '/remove'}">Remove</button>
 										</div>
 									</div>
 								</div>

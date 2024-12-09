@@ -22,7 +22,7 @@ public class Product {
 	private String type;
 
 	@Column
-	private float price;
+	private Float price;
 
 	@Column
 	private String image;
