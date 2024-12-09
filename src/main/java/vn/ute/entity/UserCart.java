@@ -32,5 +32,9 @@ public class UserCart {
         }
         this.productIds.add(p);
     }
+    
+    public void removeItemFromCart(Integer id) {
+    	productIds.removeIf(productId -> id.equals(productId));
+    }
 
 }
