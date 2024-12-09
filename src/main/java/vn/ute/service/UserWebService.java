@@ -5,8 +5,10 @@ import java.util.UUID;
 import java.util.stream.StreamSupport;
 import vn.ute.dto.UserWebDto;
 import vn.ute.entity.Role;
+import vn.ute.entity.UserCart;
 import vn.ute.entity.UserWeb;
 import vn.ute.repository.RoleRepository;
+import vn.ute.repository.UserCartRepository;
 import vn.ute.repository.UserWebRepository;
 import vn.ute.util.SecCtxHolderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,10 @@ public class UserWebService {
     @Autowired
     JavaMailSender mailSender;
 
-    @Value("${server.port:8083}")
+    @Autowired
+    UserCartRepository cartRepo;
+
+    @Value("${server.port:8080}")
     int serverPort;
 
     public UserWeb createUser(UserWeb user) {
@@ -82,6 +87,11 @@ public class UserWebService {
         return findUserById(id);
     }
 
+    public UserWeb findCurrentUserEntity() {
+        var id = SecCtxHolderUtils.getUserId();
+        return repo.findById(id).orElseThrow();
+    }
+
     public List<Role> findAllUserRoles() {
         var roles = roleRepo.findAll();
         return StreamSupport.stream(roles.spliterator(), false).toList();
@@ -100,7 +110,8 @@ public class UserWebService {
             msg.setFrom("shop@email.com");
             msg.setSubject("Confirm your registration");
             msg.setRecipients(MimeMessage.RecipientType.TO, email);
-            msg.setContent("Please use this link to verify your registration: " + link, "text/html; charset=utf-8");
+            msg.setContent("Please use this link to verify your registration: " + link,
+                    "text/html; charset=utf-8");
         }
         catch (MessagingException e) {
             e.printStackTrace();
@@ -118,8 +129,21 @@ public class UserWebService {
         user.setCodeVerify(null);
         repo.save(user);
     }
-    
+
     public boolean isEmailAlreadyRegistered(String email) {
         return repo.existsByEmailAddress(email);
+    }
+
+    public int countItemInCart() {
+        if (!SecCtxHolderUtils.isLoggedIn()) {
+            return 0;
+        }
+        var currentUserId = SecCtxHolderUtils.getUserId();
+        var cart = cartRepo.findByUserId(currentUserId).orElse(new UserCart());
+        var productsInCart = cart.getProductIds();
+        if (productsInCart == null) {
+            return 0;
+        }
+        return productsInCart.size();
     }
 }

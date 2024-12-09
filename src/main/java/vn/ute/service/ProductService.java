@@ -3,24 +3,33 @@ package vn.ute.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
-
 import vn.ute.entity.Product;
+import vn.ute.entity.UserCart;
 import vn.ute.repository.ProductRepository;
+import vn.ute.repository.UserCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
 
-	@Autowired
+    @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private UserCartRepository cartRepo;
+
+    @Autowired
+    private UserWebService userService;
 
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
-    public List<Product> findAllProducts() {
-        return (List<Product>) productRepository.findAll();
+    public Page<Product> findAllProducts(Pageable page) {
+        return productRepository.findAll(page);
     }
 
     public Product getProductById(int id) {
@@ -46,15 +55,64 @@ public class ProductService {
     }
 
     public void deleteProductById(int id) {
-    	productRepository.deleteById(id);
-	}
+        productRepository.deleteById(id);
+    }
 
     public List<Product> findByNameContaining(String name) {
-    	if (name == null || name.isBlank()) {
-    		var products = productRepository.findAll();
-    		return StreamSupport.stream(products.spliterator(), false).toList();
-    	}
+        if (name == null || name.isBlank()) {
+            var products = productRepository.findAll();
+            return StreamSupport.stream(products.spliterator(), false).toList();
+        }
         return productRepository.findByNameContaining(name);
     }
 
+    public void addToCart(Integer prodId) {
+        var currentUser = userService.findCurrentUserEntity();
+        var cartOpt = cartRepo.findByUserId(currentUser.getId());
+        UserCart cart;
+        if (cartOpt.isEmpty()) {
+            cart = new UserCart();
+            cart.setUser(currentUser);
+        }
+        else {
+            cart = cartOpt.get();
+        }
+        cart.addProductToCart(prodId);
+        cartRepo.save(cart);
+    }
+
+    public List<Product> findAllProductInCart() {
+        var currentUser = userService.findCurrentUserEntity();
+        var cart = cartRepo.findByUserId(currentUser.getId()).orElseThrow();
+        var prodIds = cart.getProductIds();
+        return (List<Product>) productRepository.findAllById(prodIds);
+    }
+
+    public void buyAllItemsInCart() {
+        var currentUser = userService.findCurrentUserEntity();
+        var cart = cartRepo.findByUserId(currentUser.getId()).orElseThrow();
+        var prodIds = cart.getProductIds();
+        var products = (List<Product>) productRepository.findAllById(prodIds);
+        var updatedProducts = products.stream()
+                .map(product -> {
+                    product.increaseSoldNumber();
+                    return product;
+                })
+                .toList();
+        productRepository.saveAll(updatedProducts);
+        cartRepo.delete(cart);
+    }
+    
+    public void removeFromCart(Integer prodId) {
+        var currentUser = userService.findCurrentUserEntity();
+        var cartOpt = cartRepo.findByUserId(currentUser.getId());
+        
+        if (cartOpt.isEmpty()) {
+            return;
+        }
+
+        var cart = cartOpt.get();
+        cart.removeItemFromCart(prodId); 
+        cartRepo.save(cart); 
+    }
 }

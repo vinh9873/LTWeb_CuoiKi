@@ -4,6 +4,8 @@ import vn.ute.dto.UserWebDto;
 import vn.ute.service.ProductService;
 import vn.ute.service.UserWebService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class PageController {
 
+    private static final int PAGE_SIZE = 8;
+
     @Autowired
     UserWebService userService;
 
@@ -22,9 +26,15 @@ public class PageController {
     ProductService prodService;
 
     @GetMapping("/")
-    public String homePage(Model m) {
-        var products = prodService.findAllProducts();
+    public String homePage(@RequestParam(value = "page", required = false) Integer page, Model m) {
+        int pageNumber = 0;
+        if (page != null) {
+            pageNumber = page;
+        }
+        var pageRequest = PageRequest.of(pageNumber, PAGE_SIZE, Sort.by("soldNumber").descending());
+        var products = prodService.findAllProducts(pageRequest);
         m.addAttribute("products", products);
+        m.addAttribute("totalPages", products.getTotalPages());
         return "index";
     }
 
@@ -38,7 +48,6 @@ public class PageController {
         if (binding.hasErrors()) {
             return "error";
         }
-       
         // prevent Duplicate Email Address
         if (userService.isEmailAlreadyRegistered(user.getEmailAddress())) {
             m.addAttribute("duplicatedEmail", true);
@@ -48,7 +57,6 @@ public class PageController {
         var role = userService.findRole(user.getRoleId());
         userService.createUser(user.toEntity(role));
         return "please-check-email";
-       
     }
 
     @GetMapping("/login")

@@ -7,7 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.Data;
 
+@Data
 @Entity(name = "user_web")
 public class UserWeb {
 
@@ -37,74 +39,4 @@ public class UserWeb {
     @Column
     private Boolean isActive;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public String getCodeVerify() {
-        return codeVerify;
-    }
-
-    public void setCodeVerify(String codeVerify) {
-        this.codeVerify = codeVerify;
-    }
-
-    @Override
-    public String toString() {
-        return "UserWeb [id=" + id + ", name=" + name + ", phoneNumber=" + phoneNumber + ", emailAddress="
-                + emailAddress + ", password=" + password + ", role=" + role + "]";
-    }
 }

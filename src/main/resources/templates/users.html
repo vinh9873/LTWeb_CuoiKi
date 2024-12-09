@@ -10,7 +10,10 @@
           <input type="text" class="form-control" placeholder="Search for user" id="inputSearchUser" name="search">
           <button class="btn btn-outline-primary" type="submit" id="btnSearchUser">Search User</button>
         </form>
-
+        <div th:if="${param.cantDeleteSelf}" class="alert alert-danger alert-dismissible">
+          <div>You cannot delete yourself!</div>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" />
+        </div>
         <form class="row" method="post" th:action="@{#}">
           <table class="table">
             <thead>
