@@ -2,8 +2,6 @@ package vn.ute.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.ute.entity.Order;
@@ -15,10 +13,15 @@ import vn.ute.repository.OrderItemRepository;
 public class OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    private OrderItemRepository orderItemRepository;
+    private final OrderItemRepository orderItemRepository;
+
+    public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository) {
+        this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
+    }
 
     // Tạo đơn hàng mới
     public Order createOrder(Order order, List<OrderItem> items) {

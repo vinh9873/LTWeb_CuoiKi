@@ -1,9 +1,18 @@
 package vn.ute.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 
     @Id
@@ -31,76 +40,4 @@ public class Order {
 
     @Column
     private java.time.LocalDateTime updateDate; // Ngày cập nhật đơn hàng
-
-    // Getter và setter cho id
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    // Getter và setter cho user
-    public UserWeb getUser() {
-        return user;
-    }
-
-    public void setUser(UserWeb user) {
-        this.user = user;
-    }
-
-    // Getter và setter cho totalAmount
-    public Float getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(Float totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    // Getter và setter cho status
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    // Getter và setter cho shippingAddress
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public void setShippingAddress(String shippingAddress) {
-        this.shippingAddress = shippingAddress;
-    }
-
-    // Getter và setter cho createDate
-    public java.time.LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(java.time.LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    // Getter và setter cho updateDate
-    public java.time.LocalDateTime getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(java.time.LocalDateTime updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    // Getter và setter cho orderItems
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
-    }
-
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
-    }
 }
