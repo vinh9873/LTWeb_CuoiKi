@@ -1,16 +1,17 @@
 package vn.ute.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
-import vn.ute.entity.Product;
-import vn.ute.entity.UserCart;
-import vn.ute.repository.ProductRepository;
-import vn.ute.repository.UserCartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vn.ute.entity.Product;
+import vn.ute.entity.UserCart;
+import vn.ute.repository.ProductRepository;
+import vn.ute.repository.UserCartRepository;
 
 @Service
 public class ProductService {
@@ -85,7 +86,13 @@ public class ProductService {
         var currentUser = userService.findCurrentUserEntity();
         var cart = cartRepo.findByUserId(currentUser.getId()).orElseThrow();
         var prodIds = cart.getProductIds();
-        return (List<Product>) productRepository.findAllById(prodIds);
+        if (prodIds == null || prodIds.isEmpty()) {
+            return List.of();
+        }
+        return prodIds.stream()
+                .map(id -> productRepository.findById(id).orElse(null))
+                .filter(Objects::nonNull)
+                .toList();
     }
 
     public void buyAllItemsInCart() {
@@ -102,17 +109,17 @@ public class ProductService {
         productRepository.saveAll(updatedProducts);
         cartRepo.delete(cart);
     }
-    
+
     public void removeFromCart(Integer prodId) {
         var currentUser = userService.findCurrentUserEntity();
         var cartOpt = cartRepo.findByUserId(currentUser.getId());
-        
+
         if (cartOpt.isEmpty()) {
             return;
         }
 
         var cart = cartOpt.get();
-        cart.removeItemFromCart(prodId); 
-        cartRepo.save(cart); 
+        cart.removeItemFromCart(prodId);
+        cartRepo.save(cart);
     }
 }
