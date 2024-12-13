@@ -1,10 +1,9 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{fragments/header :: head}"/>
+  <head th:insert="~{fragments/header :: head}" />
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
     <main role="main" class="container-sm">
-
       <div class="row col-md-6 offset-md-3">
         <div class="alert alert-success alert-dismissible" role="alert" th:if="${param.success}">
           <div>
@@ -27,48 +26,42 @@
                 <label for="id" class="col-form-label">User Id</label>
               </div>
               <div class="col-2">
-                <input type="text" class="form-control" th:field="*{id}" disabled>
+                <input type="text" class="form-control" th:field="*{id}" disabled />
               </div>
             </div>
             <div class="col-md-6">
               <label for="emailAddress" class="form-label">Email <span class="text-danger">*</span></label>
-              <input type="email" class="form-control" th:field="*{emailAddress}" th:value="*{emailAddress}" autocomplete="email" th:readonly="${currentContext} != '/register'">
+              <input type="email" class="form-control" th:field="*{emailAddress}" th:value="*{emailAddress}" autocomplete="email" th:readonly="${currentContext} != '/register'" />
             </div>
             <div class="col-md-6">
               <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-              <input class="form-control"
-                     th:type="${currentContext} == '/register' ? 'password' : 'text'"
-                     th:field="*{password}"
-                     th:value="*{password}"
-                     th:readonly="${currentContext} != '/register'">
+              <input class="form-control" th:type="${currentContext} == '/register' ? 'password' : 'text'" th:field="*{password}" th:value="*{password}" th:readonly="${currentContext} != '/register'" />
             </div>
             <div class="col-md-6">
               <label th:for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" th:field="*{name}" autocomplete="name">
+              <input type="text" class="form-control" th:field="*{name}" autocomplete="name" />
             </div>
             <div class="col-md-6">
               <label th:for="phoneNumber" class="form-label">Phone Number <span class="text-danger">*</span></label>
-              <input type="tel" class="form-control" th:field="*{phoneNumber}" autocomplete="tel">
+              <input type="tel" class="form-control" th:field="*{phoneNumber}" autocomplete="tel" />
             </div>
-            
-            <p class="form-label">Please describe what role you want to be:</p>
-            <div class="form-check offset-md-1" th:each="role: ${allRoles}">
-              <input class="form-check-input"
-                     type="radio"
-                     th:field="*{roleId}"
-                     th:value="${role.id}">
-              <label class="form-check-label" th:for="${#ids.prev('roleId')}" th:text="${role.name}"/>
+
+            <!-- Phần chọn role chỉ hiển thị khi không phải là 'user' -->
+            <div th:if="${role != 'user'}">
+              <p class="form-label">Please describe what role you want to be:</p>
+              <div class="form-check offset-md-1" th:each="role : ${allRoles}">
+                <input class="form-check-input" type="radio" th:field="*{roleId}" th:value="${role.id}" />
+                <label class="form-check-label" th:for="${#ids.prev('roleId')}" th:text="${role.name}" />
+              </div>
             </div>
+
             <div class="col offset-md-10 my-3">
-              <button type="submit"
-                      class="btn btn-primary"
-                      th:text="${currentContext} == '/register' ? 'Register' : 'Save'"/>
+              <button type="submit" class="btn btn-primary" th:text="${currentContext} == '/register' ? 'Register' : 'Save'" />
             </div>
+          </div>
         </form>
-        </div>
+      </div>
     </main>
   </body>
   <footer th:insert="~{fragments/footer :: footer}" />
 </html>
-
-<!-- TODO: use fragment parameters https://stackoverflow.com/a/22121676 -->

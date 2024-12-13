@@ -1,0 +1,49 @@
+
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}" />
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+<main role="main" class="container-sm">
+
+    <div class="row col-md-10 offset-md-1">
+        <h2>Order Details</h2>
+
+        <div class="alert alert-info" role="alert">
+            <p><strong>Order ID:</strong> <span th:text="${order.orderId}"></span></p>
+            <p><strong>Status:</strong> <span th:text="${order.status}"></span></p>
+            <p><strong>Total Amount:</strong> <span th:text="${order.totalAmount}"></span></p>
+            <p><strong>Shipping Address:</strong> <span th:text="${order.shippingAddress}"></span></p>
+            <p><strong>Order Date:</strong> <span th:text="${#dates.format(order.createDate, 'yyyy-MM-dd HH:mm')}"></span></p>
+        </div>
+
+        <h4>Order Items</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${orderItems}">
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.price * item.quantity}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-3">
+            <a href="/orders" class="btn btn-secondary">Back to Orders</a>
+        </div>
+    </div>
+</main>
+</body>
+<footer th:insert="~{fragments/footer :: footer}" />
+</html>

@@ -1,0 +1,52 @@
+
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/header :: head}" />
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+<main role="main" class="container-sm">
+
+    <div class="row col-md-10 offset-md-1">
+        <h2>Order History</h2>
+
+        <div class="alert alert-success alert-dismissible" role="alert" th:if="${param.success}">
+            <div>Order placed successfully!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="alert alert-danger alert-dismissible" role="alert" th:if="${param.error}">
+            <div>Failed to place order!</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Order ID</th>
+                    <th>Status</th>
+                    <th>Total Amount</th>
+                    <th>Order Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.orderId}"></td>
+                    <td th:text="${order.status}"></td>
+                    <td th:text="${order.totalAmount}"></td>
+                    <td th:text="${#dates.format(order.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td>
+                        <a href="#" class="btn btn-info" th:href="@{'/orders/' + ${order.id}}">View</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+<footer th:insert="~{fragments/footer :: footer}" />
+</html>
