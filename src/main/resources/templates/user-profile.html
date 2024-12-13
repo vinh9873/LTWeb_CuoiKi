@@ -46,8 +46,8 @@
               <input type="tel" class="form-control" th:field="*{phoneNumber}" autocomplete="tel" />
             </div>
 
-            <!-- Phần chọn role chỉ hiển thị khi không phải là 'user' -->
-            <div th:if="${role != 'user'}">
+            <!-- Phần chọn role chỉ hiển thị khi role là 'admin' -->
+            <div th:if="${role == 'admin'}">
               <p class="form-label">Please describe what role you want to be:</p>
               <div class="form-check offset-md-1" th:each="role : ${allRoles}">
                 <input class="form-check-input" type="radio" th:field="*{roleId}" th:value="${role.id}" />
