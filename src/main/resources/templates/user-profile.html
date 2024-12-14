@@ -47,7 +47,7 @@
             </div>
 
             <!-- Phần chọn role chỉ hiển thị khi role là 'admin' -->
-            <div th:if="${role == 'admin'}">
+            <div th:if="${role == 'admin' or currentContext.matches('\/register.*')}">
               <p class="form-label">Please describe what role you want to be:</p>
               <div class="form-check offset-md-1" th:each="role : ${allRoles}">
                 <input class="form-check-input" type="radio" th:field="*{roleId}" th:value="${role.id}" />
