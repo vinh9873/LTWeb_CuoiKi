@@ -63,6 +63,7 @@ public class OrderController {
             prodService.buyAllItemsInCart();
             return "/payment-success";
         }
+        prodService.removeCart();
         if ("24".equals(respCode)) {
             return "/payment-cancel";
         }
@@ -91,5 +92,5 @@ public class OrderController {
         prodService.removeFromCart(prodId);
         return "redirect:/orders/cart";
     }
-    
+
 }

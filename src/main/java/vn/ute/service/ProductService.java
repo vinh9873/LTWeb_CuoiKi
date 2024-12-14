@@ -107,6 +107,12 @@ public class ProductService {
         cartRepo.delete(cart);
     }
 
+    public void removeCart() {
+        var currentUser = userService.findCurrentUserEntity();
+        var cart = cartRepo.findByUserId(currentUser.getId()).orElseThrow();
+        cartRepo.delete(cart);
+    }
+
     public void removeFromCart(Integer prodId) {
         var currentUser = userService.findCurrentUserEntity();
         var cartOpt = cartRepo.findByUserId(currentUser.getId());
