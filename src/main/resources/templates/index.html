@@ -17,7 +17,7 @@
                 <h5 class="card-title" th:text="${prod.name}"/>
                 <p class="card-text mb-auto" th:text="${prod.description}" />
 								<p class="card-text" th:text="'Unit sold: ' + ${prod.soldNumber}" />
-                <p class="card-text" th:text="'Price: $' + ${prod.price}" />
+                <p class="card-text" th:text="'Price: ' + ${prod.price} + ' VND'" />
                 <div class="btn-group" role="group" aria-label="Basic example">
                   <button type="submit"
                           th:formaction="@{'/orders/products/' + ${prod.id} + '/add-to-cart'}"

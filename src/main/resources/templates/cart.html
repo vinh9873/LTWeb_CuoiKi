@@ -13,18 +13,22 @@
 							</div>
 						</div>
 						<div class="col-3">
-							<div class="card text-end">
+							<div class="card">
 								<div class="card-body">
-
-									<div class="form-group">
+									<h4>Pay with VNPay</h4>
+									<div class="form-group my-3">
 										<label for="vnp_Amount">Amount</label>
-										<input class="form-control"
-											   data-val="true"
-											   data-val-number="The field Amount must be a number."
-											   data-val-required="The Amount field is required."
-											   th:field="*{vnp_Amount}">
+										<div class="input-group mb-3">
+											<input class="form-control"
+												   readonly
+												   data-val="true"
+												   data-val-number="The field Amount must be a number."
+												   data-val-required="The Amount field is required."
+												   th:field="*{vnp_Amount}">
+											<span class="input-group-text" id="basic-addon2">VND</span>
+										</div>
 									</div>
-									<div class="form-group">
+									<div class="form-group mb-3">
 										<label for="vnp_OrderInfo">Description</label>
 										<textarea class="form-control"
 												  cols="20"
@@ -33,7 +37,7 @@
 									</div>
 									<div class="form-group">
 										<label for="vnp_BankCode">Bank</label>
-										<select th:field="*{vnp_BankCode}" class="form-control">
+										<select th:field="*{vnp_BankCode}" class="form-select">
 											<option value="NCB">NCB</option>
 										</select>
 
