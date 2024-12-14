@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:insert="~{fragments/header :: head}"/>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary" th:replace="~{fragments/nav :: nav}"></nav>
+    <main role="main" class="container-sm">
+      <div class="row col-md-6 offset-md-3">
+        <div class="table-responsive">
+          <form th:action="/buy-now"
+                id="frmCreateOrder"
+                method="get"
+                class="container-sm row g-3"
+                th:object="${vnpayRequest}">
+
+            <div class="form-group">
+              <label for="vnp_OrderType">Payment types</label>
+              <select name="vnp_OrderType" id="vnp_OrderType" class="form-control">
+                <option value="billpayment">Bill</option>
+                <option value="topup">Topup</option>
+                <option value="fashion">Fashion</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="vnp_Amount">Amount</label>
+              <input class="form-control"
+                     data-val="true"
+                     data-val-number="The field Amount must be a number."
+                     data-val-required="The Amount field is required."
+                     th:field="*{vnp_Amount}"
+                     th:value="${amount}">
+            </div>
+            <div class="form-group">
+              <label for="vnp_OrderInfo">Description</label>
+              <textarea class="form-control"
+                        cols="20"
+                        rows="2"
+                        th:field="*{vnp_OrderInfo}" />
+            </div>
+            <div class="form-group">
+              <label for="bankcode">Bank</label>
+              <select name="vnp_BankCode" id="bankcode" class="form-control">
+                <option value="NCB">NCB</option>
+              </select>
+
+            </div>
+
+            <div class="col offset-md-10 my-3">
+              <button type="submit" class="btn btn-success btn-lg">Pay</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+  <footer th:insert="~{fragments/footer :: footer}" />
+</html>
