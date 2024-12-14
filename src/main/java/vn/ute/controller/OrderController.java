@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.annotation.security.RolesAllowed;
 import vn.ute.dto.VnPayRequest;
 import vn.ute.entity.Order;
@@ -57,11 +58,13 @@ public class OrderController {
     }
 
     @GetMapping("/pay-with-vnpay-return")
-    public String paymentSuccess(Model m) {
-        var vnpResponseCode = "00";
-        if ("00".equals(vnpResponseCode)) {
+    public String paymentSuccess(@RequestParam("vnp_ResponseCode") String respCode, Model m) {
+        if ("00".equals(respCode)) {
             prodService.buyAllItemsInCart();
             return "/payment-success";
+        }
+        if ("24".equals(respCode)) {
+            return "/payment-cancel";
         }
         return "/payment-failure";
     }
