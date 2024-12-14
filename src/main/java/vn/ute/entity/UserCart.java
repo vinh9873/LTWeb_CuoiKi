@@ -34,7 +34,7 @@ public class UserCart {
     }
     
     public void removeItemFromCart(Integer id) {
-    	productIds.removeIf(productId -> id.equals(productId));
+        productIds.remove(id);
     }
 
 }

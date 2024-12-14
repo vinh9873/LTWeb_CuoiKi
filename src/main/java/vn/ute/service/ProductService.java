@@ -98,13 +98,10 @@ public class ProductService {
     public void buyAllItemsInCart() {
         var currentUser = userService.findCurrentUserEntity();
         var cart = cartRepo.findByUserId(currentUser.getId()).orElseThrow();
-        var prodIds = cart.getProductIds();
-        var products = (List<Product>) productRepository.findAllById(prodIds);
-        var updatedProducts = products.stream()
-                .map(product -> {
-                    product.increaseSoldNumber();
-                    return product;
-                })
+        var updatedProducts = cart.getProductIds().stream()
+                .map(id -> productRepository.findById(id).orElse(null))
+                .filter(Objects::nonNull)
+                .map(Product::increaseSoldNumber)
                 .toList();
         productRepository.saveAll(updatedProducts);
         cartRepo.delete(cart);

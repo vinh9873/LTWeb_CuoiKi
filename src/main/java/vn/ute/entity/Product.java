@@ -33,11 +33,12 @@ public class Product {
 	@Column
 	private Integer soldNumber;
 
-	public void increaseSoldNumber() {
+	public Product increaseSoldNumber() {
 		if (this.soldNumber == null) {
 			this.soldNumber = 0;
 		}
 		this.soldNumber++;
+		return this;
 	}
 
 	public Integer getSoldNumber() {
