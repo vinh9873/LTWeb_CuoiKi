@@ -4,18 +4,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import vn.ute.entity.Product;
-import vn.ute.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.annotation.security.RolesAllowed;
+import vn.ute.entity.Product;
+import vn.ute.service.ProductService;
+import vn.ute.service.UserWebService;
 
+@RolesAllowed({"admin", "vendor"})
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -34,6 +38,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UserWebService userService;
 
     @PostMapping("/create")
     public String createProduct(
@@ -65,10 +72,41 @@ public class ProductController {
         return "/products";
     }
 
+    @RolesAllowed({"admin", "vendor", "user"})
     @GetMapping("/{id}")
     public String getProductById(@PathVariable int id, Model m) {
         var product = productService.getProductById(id);
         m.addAttribute("product", product);
+
+        var user = userService.findCurrentUserEntity();
+        var productsBought = user.getProductIdsBought();
+        var canReviewProduct = false;
+        if (!CollectionUtils.isEmpty(productsBought)) {
+            canReviewProduct = productsBought.contains(id);
+        }
+        m.addAttribute("canReviewProduct", canReviewProduct);
+        m.addAttribute("comment", "");
+        m.addAttribute("rating", "");
+        return "product";
+    }
+
+    @RolesAllowed({"admin", "vendor", "user"})
+    @PostMapping("/{id}/reviews")
+    public String reviewProduct(
+            @PathVariable int id,
+            @RequestParam(value = "comment", required = false) String comment,
+            @RequestParam(value = "rating", required = false) Integer rating,
+            Model m) {
+        var product = productService.getProductById(id);
+        m.addAttribute("product", product);
+
+        var user = userService.findCurrentUserEntity();
+        var productsBought = user.getProductIdsBought();
+        var canReviewProduct = false;
+        if (!CollectionUtils.isEmpty(productsBought)) {
+            canReviewProduct = productsBought.contains(id);
+        }
+        m.addAttribute("canReviewProduct", canReviewProduct);
         return "product";
     }
 

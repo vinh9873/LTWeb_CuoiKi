@@ -1,5 +1,6 @@
 package vn.ute.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,6 +32,10 @@ public class ProductService {
 
     public Page<Product> findAllProducts(Pageable page) {
         return productRepository.findAll(page);
+    }
+
+    public List<Product> findAllProducts(Collection<Integer> ids) {
+        return (List<Product>) productRepository.findAllById(ids);
     }
 
     public Product getProductById(int id) {
@@ -104,6 +109,10 @@ public class ProductService {
                 .map(Product::increaseSoldNumber)
                 .toList();
         productRepository.saveAll(updatedProducts);
+
+        currentUser.addAllBoughtProducts(cart.getProductIds());
+        userService.updateUser(currentUser);
+
         cartRepo.delete(cart);
     }
 

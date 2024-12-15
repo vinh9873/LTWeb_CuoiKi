@@ -1,5 +1,7 @@
 package vn.ute.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,8 +37,17 @@ public class UserWeb {
 
     @Column
     private String codeVerify;
-    
+
     @Column
     private Boolean isActive;
 
+    @Column
+    private Collection<Integer> productIdsBought;
+
+    public void addAllBoughtProducts(Collection<Integer> prodIds) {
+        if (this.productIdsBought == null) {
+            this.productIdsBought = new ArrayList<>();
+        }
+        this.productIdsBought.addAll(prodIds);
+    }
 }

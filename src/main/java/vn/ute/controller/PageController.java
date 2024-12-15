@@ -79,6 +79,15 @@ public class PageController {
         return "user-profile";
     }
 
+    @GetMapping("/products-bought")
+    public String getProductsBoughtByCurrentUser(Model m) {
+        var user = userService.findCurrentUserEntity();
+        var productIds = user.getProductIdsBought();
+        var products = prodService.findAllProducts(productIds);
+        m.addAttribute("products", products);
+        return "products-bought";
+    }
+
     @GetMapping("/403")
     public String accessDenied() {
         return "403";
