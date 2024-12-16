@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import vn.ute.entity.Product;
 import vn.ute.entity.UserCart;
 import vn.ute.repository.ProductRepository;
@@ -35,6 +36,9 @@ public class ProductService {
     }
 
     public List<Product> findAllProducts(Collection<Integer> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return List.of();
+        }
         return (List<Product>) productRepository.findAllById(ids);
     }
 
