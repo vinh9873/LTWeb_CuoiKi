@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.annotation.security.RolesAllowed;
+import vn.ute.dto.ProductReviewDto;
 import vn.ute.entity.Product;
 import vn.ute.service.ProductService;
 import vn.ute.service.UserWebService;
@@ -85,29 +87,22 @@ public class ProductController {
             canReviewProduct = productsBought.contains(id);
         }
         m.addAttribute("canReviewProduct", canReviewProduct);
-        m.addAttribute("comment", "");
-        m.addAttribute("rating", "");
+        m.addAttribute("review", new ProductReviewDto());
+
+        var reviews = productService.findAllReviewsByProductId(id);
+        m.addAttribute("reviews", reviews);
+
         return "product";
     }
 
     @RolesAllowed({"admin", "vendor", "user"})
     @PostMapping("/{id}/reviews")
-    public String reviewProduct(
-            @PathVariable int id,
-            @RequestParam(value = "comment", required = false) String comment,
-            @RequestParam(value = "rating", required = false) Integer rating,
-            Model m) {
-        var product = productService.getProductById(id);
-        m.addAttribute("product", product);
-
-        var user = userService.findCurrentUserEntity();
-        var productsBought = user.getProductIdsBought();
-        var canReviewProduct = false;
-        if (!CollectionUtils.isEmpty(productsBought)) {
-            canReviewProduct = productsBought.contains(id);
+    public String reviewProduct(@PathVariable int id, ProductReviewDto review, BindingResult binding, Model m) {
+        if (binding.hasErrors()) {
+            return "error";
         }
-        m.addAttribute("canReviewProduct", canReviewProduct);
-        return "product";
+        productService.addReview(id, review);
+        return getProductById(id, m);
     }
 
     @PostMapping("/{id}")

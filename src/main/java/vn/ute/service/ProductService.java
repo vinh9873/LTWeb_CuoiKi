@@ -1,6 +1,7 @@
 package vn.ute.service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -10,9 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import vn.ute.dto.ProductReviewDto;
 import vn.ute.entity.Product;
+import vn.ute.entity.ProductReview;
 import vn.ute.entity.UserCart;
 import vn.ute.repository.ProductRepository;
+import vn.ute.repository.ProductReviewRepository;
 import vn.ute.repository.UserCartRepository;
 
 @Service
@@ -26,6 +30,9 @@ public class ProductService {
 
     @Autowired
     private UserWebService userService;
+
+    @Autowired
+    private ProductReviewRepository reviewRepository;
 
     public Product createProduct(Product product) {
         return productRepository.save(product);
@@ -137,5 +144,21 @@ public class ProductService {
         var cart = cartOpt.get();
         cart.removeItemFromCart(prodId);
         cartRepo.save(cart);
+    }
+
+    public void addReview(Integer prodId, ProductReviewDto dto) {
+        var review = new ProductReview();
+        review.setRate((double) dto.getRating());
+        review.setComment(dto.getComment());
+        var product = this.getProductById(prodId);
+        review.setProduct(product);
+        var currentUser = userService.findCurrentUserEntity();
+        review.setUser(currentUser);
+        review.setDate(new Date());
+        reviewRepository.save(review);
+    }
+
+    public List<ProductReview> findAllReviewsByProductId(Integer prodId) {
+        return reviewRepository.findAllByProductId(prodId);
     }
 }
