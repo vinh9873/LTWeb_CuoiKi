@@ -23,8 +23,11 @@
            th:unless="${currentContext.matches('\/login|\/register|\/orders\/pay-with-vnpay-return.*')}">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item" th:if="${cartItems} gt 0">
-            <a class="nav-link" aria-current="page" href="/orders/cart">
-              Cart<span th:text="'(' + ${cartItems} + ')'"></span>
+            <a class="btn btn-success position-relative" href="/orders/cart">
+              Cart
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                    th:text="${cartItems}">
+              </span>
             </a>
           </li>
           <li class="nav-item dropdown" th:if="${isLogin}">
