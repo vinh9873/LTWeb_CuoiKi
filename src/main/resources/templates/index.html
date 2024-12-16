@@ -27,7 +27,7 @@
             </form>
           </div>
         </div>
-				<nav class="mt-5">
+				<nav class="mt-5" th:if="${totalPages gt 1}">
 					<ul class="pagination justify-content-center">
 						<li class="page-item" th:each="i: ${#numbers.sequence(0, totalPages - 1)}">
 								<a class="page-link" th:href="@{'/?page=' + ${i}}" th:text="${i + 1}"></a>

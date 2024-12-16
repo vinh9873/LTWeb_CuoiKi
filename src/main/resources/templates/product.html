@@ -49,18 +49,81 @@
               <textarea class="form-control" id="description" th:field="*{description}" rows="3"></textarea>
             </div>
 
-            <div class="col offset-md-10 my-3">
-              <button type="submit" class="btn btn-primary"
-                      th:if="${product.id == null}" formaction="/products/create">Create</button>
-              <button type="submit" class="btn btn-primary"
-                      th:unless="${product.id == null}"
-                      th:formaction="@{'/products/' + ${product.id}}">Save</button>
+            <div class="col offset-md-8 my-3">
+              <th:block th:unless="${role} eq 'user'">
+                <button type="submit" class="btn btn-primary"
+                        th:if="${product.id == null}" formaction="/products/create">Create</button>
+                <button type="submit" class="btn btn-primary"
+                        th:unless="${product.id == null}"
+                        th:formaction="@{'/products/' + ${product.id}}">Save</button>
+              </th:block>
+
+              <th:block th:if="${canReviewProduct}">
+                <a class="btn btn-primary"
+                   data-bs-toggle="modal"
+                   data-bs-target="#reviewProductModal"
+                   href="#">
+                  Write Review
+                </a>
+
+              </th:block>
             </div>
           </div>
         </form>
 
       </div>
+      <h5>User reviews</h5>
+      <div th:each="rev : ${reviews}">
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row g-0">
+            <div class="col-md-8">
+              <div class="card-body">
+                <h6 class="card-title" th:text="${rev.userName}"/>
+                <p class="card-text" th:text="${rev.rate}"/>
+                <p class="card-text" th:text="${rev.comment}"/>
+                <p class="card-text">
+                  <small class="text-body-secondary" th:text="${rev.lastUpdated}"/>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </body>
   <footer th:insert="~{fragments/footer :: footer}" />
+
+  <div class="modal" tabindex="-1"
+       id="reviewProductModal"
+       th:unless="${currentContext.matches('^\/products\/create')}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Write Review</h5>
+        </div>
+        <div class="container g-3">
+          <form class="modal-body"
+                method="post"
+                th:object="${review}"
+                th:action="@{'/products/' + ${product.id} + '/reviews'}">
+            <div class="row">
+              <label for="rating" class="form-label">Rating</label>
+              <input th:field="*{rating}" class="form-range px-3" min="1" max="5" type="range">
+            </div>
+            <div class="form-group mb-3">
+              <label for="comment">Comment</label>
+              <textarea class="form-control"
+                        cols="20"
+                        rows="2"
+                        th:field="*{comment}" />
+            </div>
+            <div class="col offset-md-10 mt-3">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </html>

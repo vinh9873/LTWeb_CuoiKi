@@ -44,7 +44,11 @@
 									</div>
 
 									<div class="row m-3">
-										<button type="submit" class="btn btn-success btn-lg">Pay</button>
+										<button type="submit"
+												class="btn btn-success btn-lg"
+												th:classappend="${#lists.isEmpty(products)} ? 'disabled'">
+											Pay
+										</button>
 									</div>
 
 								</div>
