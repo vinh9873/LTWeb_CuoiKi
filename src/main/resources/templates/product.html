@@ -83,13 +83,31 @@
                 <p class="card-text">
                   <small class="text-body-secondary" th:text="${rev.lastUpdated}"/>
                 </p>
-                <button class="btn btn-primary"
-                        data-bs-toggle="modal"
-                        th:attr="data-bs-target=${'#updateReviewModal' + rev.id}"
-                        type="button"
-                        th:if="${canUpdateReview and (rev.userName eq userName)}">
-                  Update
-                </button>
+
+                <div class="btn-group" role="group" th:if="${canUpdateReview and (rev.userName eq userName)}">
+                  <button type="button"
+                          class="btn btn-primary dropdown-toggle"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                    Update
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item"
+                         th:attr="data-bs-target=${'#updateReviewModal' + rev.id}"
+                         data-bs-toggle="modal"
+                         href="#">
+                        Update
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item"
+                         th:href="@{'/products/' + ${product.id} + '/reviews/' + ${rev.id} + '/delete'}">
+                        Delete
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

@@ -166,6 +166,10 @@ public class ProductService {
         reviewRepository.save(review);
     }
 
+    public void deleteReview(Integer revId) {
+        reviewRepository.deleteById(revId);
+    }
+
     public List<ProductReview> findAllReviewsByProductId(Integer prodId) {
         return reviewRepository.findAllByProductId(prodId);
     }

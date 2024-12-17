@@ -136,6 +136,13 @@ public class ProductController {
         return getProductById(id, m);
     }
 
+    @RolesAllowed({"admin", "vendor", "user"})
+    @GetMapping("/{id}/reviews/{revId}/delete")
+    public String deleteProductReview(@PathVariable int id, @PathVariable int revId, Model m) {
+        productService.deleteReview(revId);
+        return getProductById(id, m);
+    }
+
     @PostMapping("/{id}")
     public String updateProduct(@PathVariable Integer id,
             @RequestParam(required = false) String name,
