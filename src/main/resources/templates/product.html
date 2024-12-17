@@ -38,7 +38,7 @@
             </div>
 
             <div class="col-md-6">
-              <label class="form-label" for="inputGroupFile02">Image</label>
+              <label class="form-label" for="image">Image</label>
               <div class="input-group mb-3">
                 <input type="file" class="form-control" name="image" id="image">
               </div>
@@ -58,14 +58,13 @@
                         th:formaction="@{'/products/' + ${product.id}}">Save</button>
               </th:block>
 
-              <th:block th:if="${canReviewProduct}">
-                <a class="btn btn-primary"
-                   data-bs-toggle="modal"
-                   data-bs-target="#reviewProductModal"
-                   href="#">
+              <th:block th:if="${canReviewProduct and !canUpdateReview}">
+                <button class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#reviewProductModal"
+                        type="button">
                   Write Review
-                </a>
-
+                </button>
               </th:block>
             </div>
           </div>
@@ -76,7 +75,7 @@
       <div th:each="rev : ${reviews}">
         <div class="card mb-3" style="max-width: 540px;">
           <div class="row g-0">
-            <div class="col-md-8">
+            <div class="col">
               <div class="card-body">
                 <h6 class="card-title" th:text="${rev.userName}"/>
                 <p class="card-text" th:text="${rev.rate}"/>
@@ -84,12 +83,47 @@
                 <p class="card-text">
                   <small class="text-body-secondary" th:text="${rev.lastUpdated}"/>
                 </p>
+                <button class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#updateReviewModal' + rev.id}"
+                        type="button"
+                        th:if="${canUpdateReview and (rev.userName eq userName)}">
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal" tabindex="-1"
+             th:id="${'updateReviewModal' + rev.id}"
+             th:unless="${currentContext.matches('^\/products\/create')}">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Update Review</h5>
+              </div>
+              <div class="container g-3">
+                <form class="modal-body"
+                      method="post"
+                      th:object="${review}"
+                      th:action="@{'/products/' + ${product.id} + '/reviews/' + ${rev.id}}">
+                  <div class="row">
+                    <label for="rate" class="form-label">Rate</label>
+                    <input th:field="*{rate}" class="form-range px-3" min="1" max="5" type="range">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label for="comment">Comment</label>
+                    <textarea class="form-control" cols="20" rows="2" th:field="*{comment}"/>
+                  </div>
+                  <div class="col offset-md-10 mt-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </main>
   </body>
   <footer th:insert="~{fragments/footer :: footer}" />
@@ -108,15 +142,12 @@
                 th:object="${review}"
                 th:action="@{'/products/' + ${product.id} + '/reviews'}">
             <div class="row">
-              <label for="rating" class="form-label">Rating</label>
-              <input th:field="*{rating}" class="form-range px-3" min="1" max="5" type="range">
+              <label for="rate" class="form-label">Rate</label>
+              <input th:field="*{rate}" class="form-range px-3" min="1" max="5" type="range">
             </div>
             <div class="form-group mb-3">
               <label for="comment">Comment</label>
-              <textarea class="form-control"
-                        cols="20"
-                        rows="2"
-                        th:field="*{comment}" />
+              <textarea class="form-control" cols="20" rows="2" th:field="*{comment}"/>
             </div>
             <div class="col offset-md-10 mt-3">
               <button type="submit" class="btn btn-primary">Submit</button>

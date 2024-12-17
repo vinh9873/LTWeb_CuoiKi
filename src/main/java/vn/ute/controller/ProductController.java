@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.annotation.security.RolesAllowed;
 import vn.ute.dto.ProductReviewDto;
 import vn.ute.entity.Product;
+import vn.ute.repository.ProductReviewRepository;
 import vn.ute.service.ProductService;
 import vn.ute.service.UserWebService;
 
@@ -43,6 +45,9 @@ public class ProductController {
 
     @Autowired
     private UserWebService userService;
+
+    @Autowired
+    private ProductReviewRepository reviewRepo;
 
     @PostMapping("/create")
     public String createProduct(
@@ -87,7 +92,18 @@ public class ProductController {
             canReviewProduct = productsBought.contains(id);
         }
         m.addAttribute("canReviewProduct", canReviewProduct);
-        m.addAttribute("review", new ProductReviewDto());
+
+        var canUpdateReview = productService.canUpdateReview(product.getId(), user.getId());
+        m.addAttribute("canUpdateReview", canUpdateReview);
+
+        var review = new ProductReviewDto();
+        if (canUpdateReview) {
+            var entity = reviewRepo.findByProductIdAndUserId(id, user.getId());
+            review.setComment(entity.getComment());
+            review.setRate(Optional.ofNullable(entity.getRate()).map(Double::intValue).orElse(0));
+            review.setId(entity.getId());
+        }
+        m.addAttribute("review", review);
 
         var reviews = productService.findAllReviewsByProductId(id);
         m.addAttribute("reviews", reviews);
@@ -102,6 +118,21 @@ public class ProductController {
             return "error";
         }
         productService.addReview(id, review);
+        return getProductById(id, m);
+    }
+
+    @RolesAllowed({"admin", "vendor", "user"})
+    @PostMapping("/{id}/reviews/{revId}")
+    public String updateProductReview(
+            @PathVariable int id,
+            @PathVariable int revId,
+            ProductReviewDto review,
+            BindingResult binding,
+            Model m) {
+        if (binding.hasErrors()) {
+            return "error";
+        }
+        productService.updateReview(revId, review);
         return getProductById(id, m);
     }
 

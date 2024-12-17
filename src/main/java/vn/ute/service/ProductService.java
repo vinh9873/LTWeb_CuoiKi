@@ -148,7 +148,7 @@ public class ProductService {
 
     public void addReview(Integer prodId, ProductReviewDto dto) {
         var review = new ProductReview();
-        review.setRate((double) dto.getRating());
+        review.setRate((double) dto.getRate());
         review.setComment(dto.getComment());
         var product = this.getProductById(prodId);
         review.setProduct(product);
@@ -158,7 +158,19 @@ public class ProductService {
         reviewRepository.save(review);
     }
 
+    public void updateReview(Integer revId, ProductReviewDto dto) {
+        var review = reviewRepository.findById(revId).orElseThrow();
+        review.setRate((double) dto.getRate());
+        review.setComment(dto.getComment());
+        review.setDate(new Date());
+        reviewRepository.save(review);
+    }
+
     public List<ProductReview> findAllReviewsByProductId(Integer prodId) {
         return reviewRepository.findAllByProductId(prodId);
+    }
+
+    public boolean canUpdateReview(Integer prodId, Integer userId) {
+        return reviewRepository.findByProductIdAndUserId(prodId, userId) != null;
     }
 }

@@ -8,4 +8,5 @@ public interface ProductReviewRepository extends CrudRepository<ProductReview, I
 
     List<ProductReview> findAllByProductId(Integer productId);
 
+    ProductReview findByProductIdAndUserId(Integer productId, Integer userId);
 }
